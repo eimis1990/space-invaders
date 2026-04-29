@@ -1,0 +1,303 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Courier New', monospace;
+    background: linear-gradient(135deg, #fce4ff 0%, #e0f0ff 50%, #fff0e0 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #2a1a4e;
+    overflow: hidden;
+}
+
+.game-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    position: relative;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 800px;
+    margin-bottom: 10px;
+    padding: 0 10px;
+}
+
+.score-display,
+.lives-display {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 100px;
+}
+
+.label {
+    font-size: 12px;
+    color: #9b7ec8;
+    letter-spacing: 2px;
+    font-weight: bold;
+}
+
+#score,
+#lives {
+    font-size: 24px;
+    font-weight: bold;
+    color: #7c3aed;
+    text-shadow: 2px 2px 0px rgba(124, 58, 237, 0.2);
+}
+
+#lives {
+    color: #f43f8e;
+    text-shadow: 2px 2px 0px rgba(244, 63, 142, 0.2);
+}
+
+.title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #f43f8e;
+    text-shadow: 3px 3px 0px rgba(244, 63, 142, 0.25), 0 0 20px rgba(244, 63, 142, 0.3);
+    letter-spacing: 4px;
+}
+
+#gameCanvas {
+    border: 3px solid #c084fc;
+    border-radius: 16px;
+    box-shadow:
+        0 0 0 2px #f9a8d4,
+        0 8px 32px rgba(192, 132, 252, 0.4),
+        0 2px 8px rgba(0,0,0,0.08);
+    background: #f5f0ff;
+}
+
+.overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(255, 255, 255, 0.97);
+    padding: 40px 60px;
+    border-radius: 24px;
+    border: 3px solid #c084fc;
+    box-shadow:
+        0 0 0 2px #f9a8d4,
+        0 16px 48px rgba(192, 132, 252, 0.3),
+        0 4px 16px rgba(0,0,0,0.08);
+    text-align: center;
+    z-index: 100;
+    animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+.overlay.hidden {
+    display: none;
+}
+
+.overlay h1 {
+    font-size: 36px;
+    margin-bottom: 20px;
+    color: #7c3aed;
+    text-shadow: 3px 3px 0px rgba(124, 58, 237, 0.2);
+    letter-spacing: 4px;
+}
+
+.overlay p {
+    font-size: 16px;
+    margin-bottom: 15px;
+    color: #6b5b95;
+    line-height: 1.8;
+}
+
+.instructions {
+    margin-bottom: 30px;
+}
+
+.key {
+    display: inline-block;
+    background: linear-gradient(180deg, #f3e8ff 0%, #e9d5ff 100%);
+    border: 2px solid #c084fc;
+    border-radius: 8px;
+    padding: 5px 12px;
+    margin: 2px;
+    font-size: 14px;
+    color: #7c3aed;
+    box-shadow: 0 3px 0 #a855f7, 0 2px 8px rgba(168, 85, 247, 0.15);
+    font-weight: bold;
+}
+
+.neon-button {
+    background: linear-gradient(135deg, #f43f8e 0%, #a855f7 100%);
+    border: none;
+    color: #fff;
+    padding: 15px 40px;
+    font-size: 18px;
+    font-family: 'Courier New', monospace;
+    cursor: pointer;
+    border-radius: 50px;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    transition: all 0.2s ease;
+    margin-top: 10px;
+    box-shadow: 0 4px 0 #c026d3, 0 8px 24px rgba(244, 63, 142, 0.35);
+    font-weight: bold;
+}
+
+.neon-button:hover {
+    background: linear-gradient(135deg, #ec4899 0%, #9333ea 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 0 #a21caf, 0 12px 32px rgba(244, 63, 142, 0.45);
+}
+
+.neon-button:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 0 #c026d3, 0 4px 12px rgba(244, 63, 142, 0.25);
+}
+
+.mobile-hint {
+    font-size: 12px;
+    color: #a78bca;
+    margin-top: 20px;
+}
+
+#finalScore,
+#highScore,
+#winScore {
+    color: #7c3aed;
+    font-weight: bold;
+    text-shadow: 2px 2px 0px rgba(124, 58, 237, 0.2);
+}
+
+#gameOverScreen h1 {
+    color: #f43f8e;
+    text-shadow: 3px 3px 0px rgba(244, 63, 142, 0.2);
+}
+
+#winScreen h1 {
+    color: #f59e0b;
+    text-shadow: 3px 3px 0px rgba(245, 158, 11, 0.2);
+    animation: glow 1s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+    from {
+        text-shadow: 3px 3px 0px rgba(245, 158, 11, 0.2), 0 0 12px rgba(245, 158, 11, 0.3);
+    }
+    to {
+        text-shadow: 3px 3px 0px rgba(245, 158, 11, 0.3), 0 0 24px rgba(245, 158, 11, 0.6);
+    }
+}
+
+/* Responsive design */
+@media (max-width: 600px) {
+    .game-container {
+        padding: 10px;
+    }
+
+    .header {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .title {
+        font-size: 18px;
+        order: -1;
+        width: 100%;
+        text-align: center;
+        margin-bottom: 10px;
+    }
+
+    .score-display,
+    .lives-display {
+        min-width: 80px;
+    }
+
+    #score,
+    #lives {
+        font-size: 18px;
+    }
+
+    .overlay {
+        padding: 30px 20px;
+        width: 90%;
+        max-width: 400px;
+    }
+
+    .overlay h1 {
+        font-size: 24px;
+    }
+
+    .overlay p {
+        font-size: 14px;
+    }
+
+    .neon-button {
+        padding: 12px 30px;
+        font-size: 14px;
+    }
+
+    .mobile-hint {
+        display: block;
+    }
+}
+
+@media (min-width: 601px) {
+    .mobile-hint {
+        display: none;
+    }
+}
+
+/* Soft floating dots background */
+.game-container::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background:
+        radial-gradient(circle at 15% 20%, rgba(244, 63, 142, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 85% 80%, rgba(168, 85, 247, 0.1) 0%, transparent 40%),
+        radial-gradient(circle at 50% 50%, rgba(251, 191, 36, 0.05) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 1000;
+}
+
+/* Pulsing border animation for canvas */
+@keyframes borderPulse {
+    0%, 100% {
+        box-shadow:
+            0 0 0 2px #f9a8d4,
+            0 8px 32px rgba(192, 132, 252, 0.4),
+            0 2px 8px rgba(0,0,0,0.08);
+    }
+    50% {
+        box-shadow:
+            0 0 0 3px #f472b6,
+            0 12px 40px rgba(192, 132, 252, 0.6),
+            0 4px 16px rgba(0,0,0,0.1);
+    }
+}
+
+#gameCanvas {
+    animation: borderPulse 3s ease-in-out infinite;
+}

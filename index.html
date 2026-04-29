@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Space Invaders</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="game-container">
+        <div class="header">
+            <div class="score-display">
+                <span class="label">SCORE</span>
+                <span id="score">0</span>
+            </div>
+            <div class="title">SPACE INVADERS</div>
+            <div class="lives-display">
+                <span class="label">LIVES</span>
+                <span id="lives">♥♥♥</span>
+            </div>
+        </div>
+
+        <canvas id="gameCanvas"></canvas>
+
+        <div id="startScreen" class="overlay">
+            <h1>SPACE INVADERS</h1>
+            <p class="instructions">
+                Use <span class="key">←</span> <span class="key">→</span> or <span class="key">A</span> <span class="key">D</span> to move<br>
+                Press <span class="key">SPACE</span> to shoot
+            </p>
+            <button id="startBtn" class="neon-button">START GAME</button>
+            <p class="mobile-hint">On mobile: Touch left/right side to move, tap center to shoot</p>
+        </div>
+
+        <div id="gameOverScreen" class="overlay hidden">
+            <h1>GAME OVER</h1>
+            <p>Final Score: <span id="finalScore">0</span></p>
+            <p>High Score: <span id="highScore">0</span></p>
+            <button id="restartBtn" class="neon-button">PLAY AGAIN</button>
+        </div>
+
+        <div id="winScreen" class="overlay hidden">
+            <h1>VICTORY!</h1>
+            <p>You defeated the alien invasion!</p>
+            <p>Score: <span id="winScore">0</span></p>
+            <button id="nextLevelBtn" class="neon-button">NEXT WAVE</button>
+        </div>
+
+        <div id="pauseScreen" class="overlay hidden">
+            <h1>PAUSED</h1>
+            <p>Press <span class="key">P</span> or <span class="key">ESC</span> to resume</p>
+        </div>
+    </div>
+
+    <script src="game.js"></script>
+</body>
+</html>
