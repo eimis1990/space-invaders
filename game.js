@@ -29,7 +29,8 @@ const player = {
     y: 0,
     speed: 7,
     color: '#7c3aed',
-    dx: 0
+    dx: 0,
+    tilt: 0       // current tilt in radians; negative = leaning left, positive = right
 };
 
 // Bullets
@@ -252,6 +253,17 @@ function drawPlayer() {
     const t = Date.now();
 
     ctx.save();
+
+    // Apply turning bank: rotate around ship center, then squish the
+    // leading wing slightly to sell the 3-D banking illusion.
+    if (player.tilt !== 0) {
+        ctx.translate(cx, cy);
+        ctx.rotate(player.tilt);
+        // Scale x asymmetrically so the leading side foreshortens
+        const scaleX = 1 - Math.abs(player.tilt) * 0.18;
+        ctx.scale(scaleX, 1);
+        ctx.translate(-cx, -cy);
+    }
 
     // --- Engine exhaust glow (animated) ---
     const thrustFlicker = 0.7 + Math.sin(t * 0.03) * 0.3;
@@ -542,6 +554,12 @@ function updatePlayer() {
     // Keep player in bounds
     if (player.x < 0) player.x = 0;
     if (player.x + player.width > canvas.width) player.x = canvas.width - player.width;
+
+    // Smoothly interpolate tilt toward the direction of movement
+    const maxTilt = 0.32; // radians (~18 degrees of banking)
+    const targetTilt = player.dx > 0 ? maxTilt : player.dx < 0 ? -maxTilt : 0;
+    player.tilt += (targetTilt - player.tilt) * 0.32;
+    if (Math.abs(player.tilt) < 0.001) player.tilt = 0;
 }
 
 function updateBullets() {
