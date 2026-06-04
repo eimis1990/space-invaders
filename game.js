@@ -21,6 +21,44 @@ let lives = 3;
 let level = 1;
 let highScore = localStorage.getItem('spaceInvadersHighScore') || 0;
 
+// Theme
+const THEME_STORAGE_KEY = 'spaceInvadersTheme';
+let currentTheme = (function () {
+    try {
+        const saved = localStorage.getItem(THEME_STORAGE_KEY);
+        return saved === 'dark' ? 'dark' : 'light';
+    } catch (e) {
+        return 'light';
+    }
+})();
+
+function getCanvasBgColor() {
+    return getComputedStyle(document.documentElement)
+        .getPropertyValue('--canvas-bg')
+        .trim() || '#f5f0ff';
+}
+
+function applyTheme(theme) {
+    currentTheme = theme === 'dark' ? 'dark' : 'light';
+    if (currentTheme === 'dark') {
+        document.documentElement.setAttribute('data-theme', 'dark');
+    } else {
+        document.documentElement.removeAttribute('data-theme');
+    }
+    try {
+        localStorage.setItem(THEME_STORAGE_KEY, currentTheme);
+    } catch (e) {}
+    updateThemeButtons();
+}
+
+function updateThemeButtons() {
+    document.querySelectorAll('.theme-option').forEach(btn => {
+        const isActive = btn.dataset.themeValue === currentTheme;
+        btn.classList.toggle('active', isActive);
+        btn.setAttribute('aria-checked', isActive ? 'true' : 'false');
+    });
+}
+
 // Player
 const player = {
     width: 50,
@@ -906,10 +944,20 @@ document.getElementById('startBtn').addEventListener('click', startGame);
 document.getElementById('restartBtn').addEventListener('click', startGame);
 document.getElementById('nextLevelBtn').addEventListener('click', nextLevel);
 
+// Theme toggle listeners
+document.querySelectorAll('.theme-option').forEach(btn => {
+    btn.addEventListener('click', () => {
+        applyTheme(btn.dataset.themeValue);
+    });
+});
+
+// Apply persisted theme + sync UI on load
+applyTheme(currentTheme);
+
 // Main game loop
 function gameLoop() {
     // Clear canvas
-    ctx.fillStyle = '#f5f0ff';
+    ctx.fillStyle = getCanvasBgColor();
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     // Always draw stars

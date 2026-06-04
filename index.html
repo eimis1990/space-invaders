@@ -5,6 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Space Invaders</title>
     <link rel="stylesheet" href="style.css">
+    <script>
+        (function () {
+            try {
+                var saved = localStorage.getItem('spaceInvadersTheme');
+                if (saved === 'dark' || saved === 'light') {
+                    document.documentElement.setAttribute('data-theme', saved);
+                }
+            } catch (e) {}
+        })();
+    </script>
 </head>
 <body>
     <div class="game-container">
@@ -28,6 +38,13 @@
                 Use <span class="key">←</span> <span class="key">→</span> or <span class="key">A</span> <span class="key">D</span> to move<br>
                 Press <span class="key">SPACE</span> to shoot
             </p>
+            <div class="theme-selector">
+                <span class="theme-selector-label">THEME</span>
+                <div class="theme-options" role="radiogroup" aria-label="Select theme">
+                    <button type="button" class="theme-option" data-theme-value="light" role="radio" aria-checked="true">LIGHT</button>
+                    <button type="button" class="theme-option" data-theme-value="dark" role="radio" aria-checked="false">DARK</button>
+                </div>
+            </div>
             <button id="startBtn" class="neon-button">START GAME</button>
             <p class="mobile-hint">On mobile: Touch left/right side to move, tap center to shoot</p>
         </div>
